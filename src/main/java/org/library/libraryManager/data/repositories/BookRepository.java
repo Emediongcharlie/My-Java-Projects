@@ -15,6 +15,6 @@ public interface BookRepository extends MongoRepository<Book, String> {
     Book findByYearOfPublication(String yearOfPublication);
 //    Book findByTitle(String title);
     boolean existsByTitle(String title);
-    Optional<Book> existsByStatus(BookStatus status);
+//    Optional<Book> existsByStatus(BookStatus status);
 
 }

@@ -116,14 +116,14 @@ public class controllers {
         }
     }
 
-    @PostMapping("/lend-book")
-    public ResponseEntity<?> lendBook(@PathVariable LendBookRequest request) {
-        try{
-            LendBookResponse response = libraryServices.lendBook(request, request.getTitle());
-            return new ResponseEntity<>(new libraryApiResponse(true, response), HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(new libraryApiResponse(false, e.getMessage()), HttpStatus.EXPECTATION_FAILED);
-        }
-    }
+//    @PostMapping("/lend-book")
+//    public ResponseEntity<?> lendBook(@PathVariable LendBookRequest request) {
+//        try{
+//            LendBookResponse response = libraryServices.lendBook(request, request.getTitle());
+//            return new ResponseEntity<>(new libraryApiResponse(true, response), HttpStatus.OK);
+//        }
+//        catch (Exception e){
+//            return new ResponseEntity<>(new libraryApiResponse(false, e.getMessage()), HttpStatus.EXPECTATION_FAILED);
+//        }
+//    }
 }

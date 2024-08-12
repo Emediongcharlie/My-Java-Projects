@@ -138,19 +138,19 @@ public class LibraryServicesImpl implements LibraryServices {
 
     @Override
     public LendBookResponse lendBook(LendBookRequest request, String title) {
-        BookLending bookLending = new BookLending();
-        Reader reader = new Reader();
-        Optional<Book> titleExists = bookRepository.findByTitle(title);
-        if (titleExists.isPresent()) {
-            bookLending.setTitle(request.getTitle());
-            bookLending.setAuthor(request.getAuthor());
-            bookLending.setYearOfPublication(request.getYearOfPublication());
-            Reader read = validateUserName(request.getUsername());
-            reader.setFirstName(read.getFirstName());
-            reader.setLastName(read.getLastName());
-            reader.setPassword(read.getPassword());
-            bookLendingRepository.save(bookLending);
-        }
+//        BookLending bookLending = new BookLending();
+//        Reader reader = new Reader();
+//        Optional<Book> titleExists = bookRepository.findByTitle(title);
+//        if (titleExists.isPresent()) {
+//            bookLending.setTitle(request.getTitle());
+//            bookLending.setAuthor(request.getAuthor());
+//            bookLending.setYearOfPublication(request.getYearOfPublication());
+//            Reader read = validateUserName(request.getUsername());
+//            read.setFirstName(request.getFirstName());
+//            read.setLastName(request.getLastName());
+//            rea.setPassword(read.getPassword());
+//            readerRepository.save()
+//        }
 //        if (request.getStatus() == BookStatus.AVAILABLE){
 //            bookLending.setTitle(request.getTitle());
 //            bookLending.setAuthor(request.getAuthor());
@@ -168,6 +168,7 @@ public class LibraryServicesImpl implements LibraryServices {
 //            return response;
 //        }
 //        throw new EntityNotFoundException("Book not available");
+        return null;
     }
 
 
