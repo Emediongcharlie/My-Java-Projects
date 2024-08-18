@@ -2,8 +2,6 @@ package org.library.libraryManager.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.library.libraryManager.data.models.Book;
-import org.library.libraryManager.data.models.ClassOfUser;
 import org.library.libraryManager.data.models.Librarian;
 import org.library.libraryManager.data.repositories.BookRepository;
 import org.library.libraryManager.dtos.requests.*;
@@ -11,8 +9,7 @@ import org.library.libraryManager.dtos.responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.library.libraryManager.data.models.ClassOfUser.ADMIN;
+import static org.assertj.core.api.Assertions.*;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 
 
@@ -32,31 +29,31 @@ public class LibraryServicesTest {
 
     @Test
     public void testAddBook() {
+        AdminsRegistrationRequest registrationRequest = new AdminsRegistrationRequest();
+        registrationRequest.setFirstName("Emediong");
+        registrationRequest.setLastName("Scott");
+        registrationRequest.setEmail("eds@gmail.com");
+        registrationRequest.setPassword("password");
+        registrationRequest.setUsername("eds@gmail.com");
+        libraryServices.adminsRegistration(registrationRequest);
+//        assertThat(adminResponse).isNotNull();
+
         AddBookRequest addBookRequest = new AddBookRequest();
-        addBookRequest.setAuthor("Emediong Charlie");
-        addBookRequest.setTitle("Java test");
-        addBookRequest.setIsbn("11111");
-        addBookRequest.setYearOfPublication("1991");
+        addBookRequest.setUsername("eds@gmail.com");
+        addBookRequest.setTitle("faith");
+        addBookRequest.setAuthor("ravenhill");
+        addBookRequest.setYearOfPublication("2003");
+        addBookRequest.setIsbn("1111");
         AddBookResponse response = libraryServices.addBook(addBookRequest);
+        assertThat(bookRepository.count()).isEqualTo(1);
+        assertThat(response.getTitle()).contains("faith");
 
-        AddBookRequest addBookRequest2 = new AddBookRequest();
-        addBookRequest2.setAuthor("Emediong Charlie");
-        addBookRequest2.setTitle("Java test2");
-        addBookRequest2.setIsbn("22222");
-        addBookRequest2.setYearOfPublication("1992");
-        AddBookResponse addBookResponse2 = libraryServices.addBook(addBookRequest2);
-        assertThat(addBookResponse2).isNotNull();
-        assertThat(response).isNotNull();
-        assertThat(response.getAuthor().contains("Emediong Charlie"));
     }
-
 
     @Test
     public void testAdminCanRegister() {
         AdminsRegistrationRequest addAdminsRequest = new AdminsRegistrationRequest();
         Librarian librarian = new Librarian();
-        librarian.setClassOfUser(ADMIN);
-        addAdminsRequest.setClassOfUser(ADMIN);
         addAdminsRequest.setFirstName("Emediong");
         addAdminsRequest.setLastName("Charlie");
         addAdminsRequest.setEmail("emediong@charlie.com");
@@ -69,15 +66,18 @@ public class LibraryServicesTest {
 
     @Test
     public void testAdminCanLogin() {
-        AdminsLoginRequest addAdminsRequest = new AdminsLoginRequest();
+        AdminsRegistrationRequest addAdminsRequest = new AdminsRegistrationRequest();
         AdminsLoginRequest loginRequest = new AdminsLoginRequest();
-        addAdminsRequest.setUsername("emediong");
+        addAdminsRequest.setUsername("it");
         addAdminsRequest.setPassword("1111");
-        loginRequest.setUsername("emediong");
+        AdminsRegistrationResponse response = libraryServices.adminsRegistration(addAdminsRequest);
+        assertThat(response).isNotNull();
+        assertThat(response.getPassword().contains("1111"));
+        loginRequest.setUsername("it");
         loginRequest.setPassword("1111");
-        assertThat(libraryServices.adminsLogin(loginRequest)).isNotNull();
-        AdminsLoginResponse response = libraryServices.adminsLogin(loginRequest);
-        assertThat(response.getMessage().contains("Successfully logged in"));
+        AdminsLoginResponse response1 = libraryServices.adminsLogin(loginRequest);
+        assertThat(response1).isNotNull();
+        assertThat(response1.getMessage().contains("Successfully logged in"));
     }
 
     @Test
@@ -85,7 +85,7 @@ public class LibraryServicesTest {
         ReadersRegistrationRequest readersRegistrationRequest = new ReadersRegistrationRequest();
         readersRegistrationRequest.setFirstName("Emediong");
         readersRegistrationRequest.setLastName("Charlie");
-        readersRegistrationRequest.setEmail("emediong@charlie.com");
+        readersRegistrationRequest.setEmail("@carie.com");
         readersRegistrationRequest.setPassword("1111");
         readersRegistrationRequest.setPhoneNumber("0800657535435");
         ReadersRegistrationResponse response = libraryServices.newReadersRegistration(readersRegistrationRequest);
@@ -95,17 +95,29 @@ public class LibraryServicesTest {
 
     @Test
     public void testThatReaderCanLogin() {
-        ReadersLoginRequest readersLoginRequest = new ReadersLoginRequest();
-        readersLoginRequest.setUsername("emediong");
-        readersLoginRequest.setPassword("1111");
-        ReadersLoginResponse response = libraryServices.readerLogin(readersLoginRequest);
+        ReadersRegistrationRequest readersRegistrationRequest = new ReadersRegistrationRequest();
+        readersRegistrationRequest.setFirstName("Emediong");
+        readersRegistrationRequest.setLastName("Charlie");
+        readersRegistrationRequest.setEmail("eng@che.com");
+        readersRegistrationRequest.setPassword("161");
+        readersRegistrationRequest.setPhoneNumber("0800657535435");
+        readersRegistrationRequest.setUsername("tit");
+        ReadersRegistrationResponse response = libraryServices.newReadersRegistration(readersRegistrationRequest);
         assertThat(response).isNotNull();
-        assertThat(response.getMessage().contains("Successfully logged in"));
+        ReadersLoginRequest loginRequest = new ReadersLoginRequest();
+        loginRequest.setUsername("tit");
+        loginRequest.setPassword("161");
+        ReadersLoginResponse loginResponse = libraryServices.readerLogin(loginRequest);
+        assertThat(loginResponse).isNotNull();
+        assertThat(loginResponse.getMessage().contains("Successfully logged in"));
+
+
+
     }
 
     @Test
-    public void testReadBookByIsbn() {
-        SearchBookByIsbnRequest request = new SearchBookByIsbnRequest();
+    public void testReadBookByAuthor() {
+        SearchBookByAuthorRequest request = new SearchBookByAuthorRequest();
         request.setIsbn("1111");
         request.setAuthor("Emediong Charlie");
         request.setTitle("Java test");
@@ -114,7 +126,7 @@ public class LibraryServicesTest {
         response.setAuthor("Emediong Charlie");
         response.setTitle("Java test");
         assertThat(response).isNotNull();
-        assertThat(response.getIsbn().contains("1111")).isTrue();
+        assertThat(response.getAuthor().contains("Emediong Charlie")).isTrue();
     }
 
     @Test

@@ -20,4 +20,5 @@ public class BookLending {
     private BookStatus status;
     private String dateCollected;
     private String dateToReturn;
+    private String username;
 }

@@ -8,4 +8,7 @@ import java.util.Optional;
 public interface ReadersRepository extends MongoRepository<Reader, String> {
     Reader findByEmail(String email);
     Reader findByUsername(String username);
+    Optional<Reader> findByUsernameAndPassword(String username, String password);
+
+
 }

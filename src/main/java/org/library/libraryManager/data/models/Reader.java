@@ -16,9 +16,12 @@ public class Reader {
     private String lastName;
     private String password;
     private String email;
-    private String phoneNumber;
     private String username;
+    private String phoneNumber;
+    private ClassOfUser classOfUser;
     private RegistrationStatus registrationStatus;
+
+
 
 //    public void setUsername(String username){
 //

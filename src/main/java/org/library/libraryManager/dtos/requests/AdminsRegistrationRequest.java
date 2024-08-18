@@ -10,6 +10,6 @@ public class AdminsRegistrationRequest {
     private String lastName;
     private String email;
     private String password;
-    private String Username;
+    private String username;
     private ClassOfUser classOfUser;
 }

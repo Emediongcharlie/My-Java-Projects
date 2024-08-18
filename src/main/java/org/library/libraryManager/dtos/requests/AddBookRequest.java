@@ -10,4 +10,8 @@ public class AddBookRequest {
     private String title;
     private String yearOfPublication;
     private String isbn;
+    private String username;
+    private String password;
+
+
 }

@@ -2,7 +2,7 @@ package org.library.libraryManager.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.library.libraryManager.data.models.Book;
-import org.library.libraryManager.data.models.BookLending;
+import org.library.libraryManager.data.models.Reader;
 import org.library.libraryManager.dtos.requests.*;
 import org.library.libraryManager.dtos.responses.*;
 import org.library.libraryManager.services.LibraryServices;
@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -105,10 +104,10 @@ public class controllers {
         return libraryServices.deleteAllBook();
     }
 
-    @GetMapping("/get-book-by-isbn/{isbn}")
-    public ResponseEntity<?> getBookByIsbn(@PathVariable("isbn") String isbn) {
+    @GetMapping("/get-book-by-author/{author}")
+    public ResponseEntity<?> getBookByAuthor(@PathVariable("author") String author) {
         try{
-            Book response = libraryServices.readBookByIsbn(isbn);
+            SearchBookByAuthorResponse response = libraryServices.readBookByAuthor(author);
             return new ResponseEntity<>(new libraryApiResponse(true, response), HttpStatus.OK);
         }
         catch (Exception e){
@@ -116,14 +115,14 @@ public class controllers {
         }
     }
 
-//    @PostMapping("/lend-book")
-//    public ResponseEntity<?> lendBook(@PathVariable LendBookRequest request) {
-//        try{
-//            LendBookResponse response = libraryServices.lendBook(request, request.getTitle());
-//            return new ResponseEntity<>(new libraryApiResponse(true, response), HttpStatus.OK);
-//        }
-//        catch (Exception e){
-//            return new ResponseEntity<>(new libraryApiResponse(false, e.getMessage()), HttpStatus.EXPECTATION_FAILED);
-//        }
-//    }
+    @PutMapping("/lend-book")
+    public ResponseEntity<?> lendBook(@PathVariable LendBookRequest request) {
+        try{
+            Reader response = libraryServices.lendBook(request, request.getTitle());
+            return new ResponseEntity<>(new libraryApiResponse(true, response), HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(new libraryApiResponse(false, e.getMessage()), HttpStatus.EXPECTATION_FAILED);
+        }
+    }
 }

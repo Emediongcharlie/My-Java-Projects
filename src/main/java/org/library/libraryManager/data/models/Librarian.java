@@ -16,7 +16,7 @@ public class Librarian {
     private String firstName;
     private String lastName;
     private String password;
-    private String Username;
+    private String username;
     private String email;
     private ClassOfUser classOfUser;
 

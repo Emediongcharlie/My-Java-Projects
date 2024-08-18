@@ -20,4 +20,6 @@ public class Book {
     private String author;
     private String yearOfPublication;
     private String isbn;
+    private String username;
+    private String password;
 }

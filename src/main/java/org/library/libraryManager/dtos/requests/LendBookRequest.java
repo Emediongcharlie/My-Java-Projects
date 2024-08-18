@@ -13,7 +13,7 @@ public class LendBookRequest {
     private String username;
     private String title;
     private String author;
-    private int yearOfPublication;
+    private String yearOfPublication;
     private BookStatus status;
     private String dateCollected;
     private String dateToReturn;

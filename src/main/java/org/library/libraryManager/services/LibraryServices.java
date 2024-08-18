@@ -2,6 +2,7 @@ package org.library.libraryManager.services;
 
 
 import org.library.libraryManager.data.models.Book;
+import org.library.libraryManager.data.models.Reader;
 import org.library.libraryManager.dtos.requests.*;
 import org.library.libraryManager.dtos.responses.*;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,14 @@ public interface LibraryServices {
     SearchBookResponse searchAllBook(SearchBookRequest request);
 
     DeleteBookResponse deleteAllBook();
-    LendBookResponse lendBook(LendBookRequest request, String title);
+    Reader lendBook(LendBookRequest request, String title);
 
     Book readBookByTitle(String title);
 
     List<Book> readBooks();
 
-    Book readBookByIsbn(String isbn);
+//    Book readBookByAuthor(String author);
 
-    int count();
+//    SearchBookByAuthorResponse readBookByAuthor(SearchBookByAuthorRequest request);
+    SearchBookByAuthorResponse readBookByAuthor(String author);
 }
